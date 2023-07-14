@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- head fragment 사용 -->
+<th:block th:replace="/admin/templates/fragments/head :: headFragment"></th:block>
+
+<body>
+
+<!-- header fragment 사용 -->
+<th:block th:replace="/admin/templates/fragments/header :: headerFragment"></th:block>
+
+<!-- Content wrapper -->
+<div class="content-wrapper">
+    <!-- content fragment 사용 -->
+    <th:block layout:fragment="content"></th:block>
+</div>
+
+<!-- footer fragment 사용 -->
+<th:block th:replace="/admin/templates/fragments/footer :: footerFragment"></th:block>
+
+
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>
+<script th:src="@{/assets/vendor/libs/popper/popper.js}"></script>
+<script th:src="@{/assets/vendor/js/bootstrap.js}"></script>
+<script th:src="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+<script th:src="@{/assets/vendor/js/menu.js}"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script th:src="@{/assets/vendor/libs/apex-charts/apexcharts.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/assets/js/main.js}"></script>
+
+<!-- Page JS -->
+<script th:src="@{/assets/js/dashboards-analytics.js}"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+</body>
+</html>

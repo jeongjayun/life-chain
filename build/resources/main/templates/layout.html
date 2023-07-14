@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko" class="light-style customizer-hide" dir="ltr"
+      th:attr="data-theme='theme-default', data-assets-path='@{/assets/}', data-template='vertical-menu-template-free'">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <title>생명사슬</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" th:href="@{/assets/img/favicon/favicon.png}" />
+    
+    <!-- Icons. Uncomment required icon fonts -->
+	<link rel="stylesheet" th:href="@{/assets/vendor/fonts/boxicons.css}" />
+	
+	<!-- Core CSS -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/css/core.css}" class="template-customizer-core-css" />
+    <link rel="stylesheet" th:href="@{/assets/vendor/css/theme-default.css}" class="template-customizer-core-css" />
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/custom_width.css}"/>
+    
+    <!-- Helpers -->
+    <script th:inline="javascript" th:src="@{/assets/vendor/js/helpers.js}" type="text/javascript"></script>
+    
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script th:inline="javascript" th:src="@{/assets/js/config.js}" type="text/javascript"></script>
+    
+</head>
+<body>
+	<!-- 네비게이션바 -->
+	<nav th:replace="~{navbar :: navbarFragment}"></nav>
+	<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+	<th:block layout:fragment="content"></th:block>
+	<!-- 기본 템플릿 안에 삽입될 내용 End -->
+	<!-- Bootstrap JS -->
+	<script th:src="@{/bootstrap.min.js}"></script>
+	<!-- 자바스크립트 Start -->
+	<th:block layout:fragment="script"></th:block>
+	<script th:inline="javascript" th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>
+	<script th:inline="javascript" th:src="@{/assets/vendor/libs/popper/popper.js}"></script>
+	<script th:inline="javascript" th:src="@{/assets/vendor/js/bootstrap.js}"></script>
+	<script th:inline="javascript" th:src="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+	
+	<script th:inline="javascript" th:src="@{/assets/vendor/js/menu.js}"></script>
+	<!-- endbuild -->
+	
+	<!-- Vendors JS -->
+	<script th:inline="javascript" th:src="@{/assets/vendor/libs/apex-charts/apexcharts.js}"></script>
+	
+	<!-- Main JS -->
+	<script th:inline="javascript" th:src="@{/assets/js/main.js}"></script>
+	
+	<!-- Page JS -->
+	<script th:inline="javascript" th:src="@{/assets/js/dashboards-analytics.js}"></script>
+	
+	<!-- Place this tag in your head or just before your close body tag. -->
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
+	
+	<!-- 자바스크립트 End -->
+</body>
+</html>

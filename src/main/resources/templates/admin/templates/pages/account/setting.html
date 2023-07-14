@@ -1,0 +1,244 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/templates/layouts/default_layout}">
+
+<!-- Content -->
+<div layout:fragment="content">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Account/</span> 회원정보 수정</h4>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">회원정보 수정</h5>
+                    <h5 class="card-header">안녕하세요 <span th:text="${member.memberNick}"></span>님</h5>
+                    <!-- Account -->
+                    <form id="formAccountSetting" method="post"
+                          th:action="@{'/admin/account/update/' + ${member.id}}">
+                        <input type="hidden" th:value="${member.id}"/>
+                        <div class="card-body">
+                            <div class="d-flex align-items-start align-items-sm-center gap-4">
+
+                                <div id="profileImage">
+                                    <div id="noMemberImage" th:if="${memberImg == null}">
+                                        <img
+                                                th:src="@{/assets/img/logo/logo.png}"
+                                                alt="user-avatar"
+                                                class="d-block rounded"
+                                                height="100"
+                                                width="100"
+                                        />
+                                    </div>
+
+                                    <div id="memberImage" th:if="${memberImg!= null}">
+                                        <img
+                                                th:src="@{/display(fileName=${memberImg.uploadPath + '/' + memberImg.uuid + '_' + memberImg.fileName})}"
+                                                alt="user-avatar"
+                                                class="d-block rounded"
+                                                height="100"
+                                                width="100"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div id="uploadResult">
+                                    <!--업로드 이미지-->
+                                </div>
+
+                                <div class="button-wrapper">
+                                    <!-- label의 for, input의 id, name은 통일시켜줘야 한다 -->
+                                    <label for="uploadfile" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                        <span class="d-none d-sm-block">사진 변경</span>
+                                        <i class="bx bx-upload d-block d-sm-none"></i>
+                                        <input
+                                                type="file"
+                                                id="uploadfile"
+                                                name="uploadfile"
+                                                hidden
+                                                class="account-file-input"
+                                        />
+                                        <!--프로필 이미지만 올릴거니까 multiple X-->
+                                    </label>
+
+                                    <button type="button" onclick="deleteFile()"
+                                            class="btn btn-outline-secondary account-image-reset mb-4">
+                                        <i class="bx bx-reset d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Reset</span>
+                                    </button>
+                                    <p class="text-muted mb-0">JPG, PNG 파일만 등록할 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-0"/>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="memberId" class="form-label">등록된 이메일</label>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            id="memberId"
+                                            name="memberId"
+                                            th:value="${member.memberId}"
+                                            readonly
+                                    />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="memberNick" class="form-label">닉네임</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="memberNick"
+                                            name="memberNick"
+                                            th:value="${member.memberNick}"
+                                    />
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">연락처</label>
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text">KR (+82)</span>
+                                        <input type="text"
+                                               id="memberTelWithValue"
+                                               name="memberTel"
+                                               class="form-control"
+                                               th:if="${memberInfo != null and memberInfo.memberTel != null}"
+                                               th:value="${memberInfo.memberTel}"/>
+
+                                        <input th:if="${memberInfo == null || memberInfo.memberTel == null}"
+                                               id="memberTelPlaceholder"
+                                               name="memberTel"
+                                               placeholder="01012345678, -빼고 숫자만 입력해주세요."
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">연락처 인증</label>
+                                    <div class="input-group input-group-merge">
+                                        <input class="form-control" placeholder="핸드폰 인증번호를 입력해주세요.">
+                                        <button class="btn btn-primary me-2">인증번호 요청</button>
+                                    </div>
+
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">우편번호</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="text"
+                                               id="sample6_postcode"
+                                               name="zipcode"
+                                               class="form-control"
+                                               th:if="${memberInfo != null and memberInfo.zipcode != null}"
+                                               th:value="${memberInfo.zipcode}"/>
+
+                                        <input th:if="${memberInfo == null || memberInfo.memberTel == null}"
+                                               id="zipcodeWithPlaceholder"
+                                               name="zipcode"
+                                               placeholder="00000"
+                                               class="form-control"
+                                        />
+                                        <input type="button" class="btn btn-primary me-2"
+                                               onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <div class="input-group input-group-merge">
+
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">주소</label>
+
+                                    <input type="text"
+                                           id="sample6_address"
+                                           name="address1"
+                                           class="form-control"
+                                           th:if="${memberInfo != null and memberInfo.address1 != null}"
+                                           th:value="${memberInfo.address1}"/>
+
+                                    <input th:if="${memberInfo == null || memberInfo.address1 == null}"
+                                           id="address1Placeholder"
+                                           name="address1"
+                                           placeholder="서울 특별시 OO구 OOO로 OO길"
+                                           class="form-control"/>
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">상세 주소</label>
+
+                                    <input type="text"
+                                           id="sample6_detailAddress"
+                                           name="address2"
+                                           class="form-control"
+                                           th:if="${memberInfo != null and memberInfo.address2 != null}"
+                                           th:value="${memberInfo.address2}"/>
+
+                                    <input th:if="${memberInfo == null || memberInfo.address2 == null}"
+                                           id="address2Placeholder"
+                                           name="address2"
+                                           placeholder="OO동 OO호"
+                                           class="form-control"/>
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">한마디</label>
+
+                                    <input type="text"
+                                           id="memberIntroduceWithValue"
+                                           name="memberIntroduce"
+                                           class="form-control"
+                                           th:if="${memberInfo != null and memberInfo.memberIntroduce != null}"
+                                           th:value="${memberInfo.memberIntroduce}"/>
+
+                                    <input th:if="${memberInfo == null || memberInfo.address2 == null}"
+                                           id="memberIntroducePlaceholder"
+                                           name="memberIntroduce"
+                                           placeholder="자기소개를 적어주세요."
+                                           class="form-control"/>
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label" for="memberStatus">계정상태</label>
+                                    <select id="memberStatus" class="select2 form-select"
+                                            th:field="${member.memberStatus}">
+                                        <option th:value="ACTIVE" th:selected="${member.memberStatus == 'ACTIVE'}">
+                                            Active
+                                        </option>
+                                        <option th:value="DEACTIVE" th:selected="${member.memberStatus == 'DEACTIVE'}">
+                                            Deactive
+                                        </option>
+                                        <option th:value="DORMANT" th:selected="${member.memberStatus == 'DORMANT'}">
+                                            Dormant
+                                        </option>
+                                        <option th:value="WITHDRAWAL"
+                                                th:selected="${member.memberStatus == 'WITHDRAWAL'}">Withdrawal
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="mt-2">
+                                <button type="submit" class="btn btn-primary me-2">수정</button>
+                                <button type="reset" class="btn btn-outline-secondary">취소</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- /Account -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script th:src="@{/js/postcode.js}"></script> <!--다음 주소찾기 API-->
+    <script th:src="@{/js/imageAjax.js}"></script> <!-- Ajax -->
+</div>
+
+<!-- / Content -->
+
+</html>

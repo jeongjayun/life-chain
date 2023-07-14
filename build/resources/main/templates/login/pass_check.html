@@ -1,0 +1,67 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<div layout:fragment="content" class="layout-page">
+	    <div class="container-xxl custom-login">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register -->
+          <div class="card">
+            <div class="card-body">
+              <h4 class="mb-2">비밀번호를 확인해주세요</h4>
+              <p class="mb-4">서비스를 이용하려면 비밀번호 확인이 필요합니다.</p>
+
+			  <form th:action="@{/member/passcheck}" method="post" id="formAuthentication" class="mb-3">
+                <div th:if="${param.error}">
+		            <div class="alert alert-danger">
+		                사용자 비밀번호를 확인해 주세요.
+		            </div>
+		        </div>
+
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="password">비밀번호</label>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="password">비밀번호 확인</label>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="비밀번호 확인"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+
+
+                
+                <div class="mb-3">
+                  <button class="btn btn-primary d-grid w-100" type="submit">확인</button>
+                </div>
+              </form>
+
+
+            </div>
+          </div>
+          <!-- /Register -->
+        </div>
+    </div>
+</div>
+</div>
+</html>

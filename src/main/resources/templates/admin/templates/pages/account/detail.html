@@ -1,0 +1,219 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/templates/layouts/default_layout}">
+
+<!-- Content -->
+<div layout:fragment="content">
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        <ul class="nav nav-pills flex-column flex-md-row mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i> 회원정보</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages-account-settings-notifications.html"
+                ><i class="bx bx-bell me-1"></i> <span th:text="${member.memberNick}">회원 닉네임</span>님의 쓴 글</a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages-account-settings-connections.html"
+                ><i class="bx bx-link-alt me-1"></i> <span th:text="${member.memberNick}">회원 닉네임</span>님의 즐겨찾기</a
+                >
+            </li>
+        </ul>
+
+
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Account/</span> 회원정보</h4>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">회원정보 상세</h5>
+                    <h5 class="card-header">안녕하세요 <span th:text="${member.memberNick}">회원 닉네임</span>님</h5>
+                    <!-- Account -->
+
+                    <div class="card-body">
+                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                            <div id="noMemberImage" th:if="${memberImg == null}">
+                                <img
+                                        th:src="@{/assets/img/logo/logo.png}"
+                                        alt="user-avatar"
+                                        class="d-block rounded"
+                                        height="100"
+                                        width="100"
+                                />
+                            </div>
+
+                            <div id="memberImage" th:if="${memberImg!= null}">
+                                <img
+                                        th:src="@{/display(fileName=${memberImg.uploadPath + '/' + memberImg.uuid + '_' + memberImg.fileName})}"
+                                        alt="user-avatar"
+                                        class="d-block rounded"
+                                        height="100"
+                                        width="100"
+                                />
+                            </div>
+                            <div class="button-wrapper">
+                                <span th:if="${memberInfo != null and memberInfo.memberIntroduce != null}"
+                                      th:text="${memberInfo.memberIntroduce}">회원 자기소개 / 한마디</span>
+                                <span th:if="${memberInfo == null || memberInfo.memberIntroduce == null}">입력된 자기소개가 없습니다.</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <hr class="my-0"/>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="email" class="form-label">E-mail</label>
+                                <div id="email"
+                                     name="email"
+                                     class="form-control"
+                                     th:text="${member.memberId}">회원 이메일
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="memberNick" class="form-label">닉네임</label>
+                                <span
+                                        class="form-control"
+                                        id="memberNick"
+                                        name="memberNick"
+                                        th:text="${member.memberNick}"> 회원 닉네임</span>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">연락처</label>
+                                <div class="input-group input-group-merge">
+
+                                    <span th:if="${memberInfo != null and memberInfo.memberTel != null}"
+                                          th:text="${memberInfo.memberTel}"
+                                          class="form-control">연락처</span>
+                                    <span th:if="${memberInfo == null || memberInfo.memberTel == null}"
+                                          class="form-control">입력된 연락처가 없습니다.</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Zip Code</label>
+                                <span th:if="${memberInfo != null and memberInfo.zipcode != null}"
+                                      th:text="${memberInfo.zipcode}" maxlength="6"
+                                      class="form-control">우편번호</span>
+                                <span th:if="${memberInfo == null || memberInfo.zipcode == null}" maxlength="6"
+                                      class="form-control">입력된 우편번호가 없습니다.</span>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Address</label>
+                                <span th:if="${memberInfo != null and memberInfo.address1 != null}"
+                                      th:text="${memberInfo.address1}"
+                                      class="form-control">주소</span>
+                                <span th:if="${memberInfo == null || memberInfo.address1 == null}"
+                                      class="form-control">입력된 주소가 없습니다.</span>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Address 2</label>
+                                <span th:if="${memberInfo != null and memberInfo.address2 != null}"
+                                      th:text="${memberInfo.address2}"
+                                      class="form-control">주소</span>
+                                <span th:if="${memberInfo == null || memberInfo.address2 == null}"
+                                      class="form-control">입력된 주소가 없습니다.</span>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="createdDate">가입일</label>
+                                <span id="createdDate" class="form-control"
+                                      th:text="${#temporals.format(member.createdDate, 'yyyy-MM-dd HH:mm:ss')}">
+                                </span>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="updatedDate">마지막 접속일</label>
+                                <span id="updatedDate" class="form-control"
+                                      th:text="${#temporals.format(member.updatedDate, 'yyyy-MM-dd HH:mm:ss')}">
+                                </span>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="memberStatus">계정상태</label>
+                                <span id="memberStatus" class="form-control" th:text="${member.memberStatus}">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <a th:href="@{'/admin/account/update/'+${member.id}}" th:value="${member.id}">
+                                <button type="submit" class="btn btn-primary me-2">회원정보 수정</button>
+                            </a>
+                            <a th:href="@{/admin/account/list}">
+                                <button type="reset" class="btn btn-outline-secondary">
+                                    회원 목록
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /Account -->
+                </div>
+                <div class="card">
+                    <h5 class="card-header">회원 탈퇴</h5>
+                    <div class="card-body">
+                        <div class="mb-3 col-12 mb-0">
+                            <div class="alert alert-warning">
+                                <h6 class="alert-heading fw-bold mb-1">계정을 삭제하시겠습니까?</h6>
+                                <p class="mb-0">계정을 삭제하면 되돌릴 수 없습니다.</p>
+                            </div>
+                        </div>
+                        <form id="formAccountDeactivation" method="post"
+                              th:action="@{'/admin/account/' + ${member.id}}">
+                            <input type="hidden" name="_method" value="DELETE"/>
+                            <div class="form-check mb-3">
+                                <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="accountActivation"
+                                        id="accountActivation"
+                                />
+                                <label class="form-check-label" for="accountActivation">숙지했습니다.</label>
+                            </div>
+                            <input type="hidden" name="id" th:value="${member.id}"/>
+                            <button type="submit" class="btn btn-danger deactivate-account" disabled>회원 탈퇴</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const accountActivationCheckbox = document.getElementById("accountActivation");
+        const deactivateButton = document.querySelector(".deactivate-account");
+
+        accountActivationCheckbox.addEventListener('change', function() {
+            if (accountActivationCheckbox.checked) {
+                deactivateButton.disabled = false;
+            } else {
+                deactivateButton.disabled = true;
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+    </script>
+
+    <!-- / Content -->
+
+</div>
+
+
+</html>

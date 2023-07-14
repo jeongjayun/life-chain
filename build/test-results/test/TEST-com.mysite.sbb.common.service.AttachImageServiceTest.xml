@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.mysite.sbb.common.service.AttachImageServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-07-14T03:29:25" hostname="jeongjayun-ui-MacBookAir.local" time="0.577">
+  <properties/>
+  <testcase name="이미지를 리스트에 담아 memberInfo와 연결한다." classname="com.mysite.sbb.common.service.AttachImageServiceTest" time="0.577"/>
+  <system-out><![CDATA[12:29:02.060 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+12:29:02.091 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+12:29:02.203 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.mysite.sbb.common.service.AttachImageServiceTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+12:29:02.233 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.mysite.sbb.common.service.AttachImageServiceTest], using SpringBootContextLoader
+12:29:02.243 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.mysite.sbb.common.service.AttachImageServiceTest]: class path resource [com/mysite/sbb/common/service/AttachImageServiceTest-context.xml] does not exist
+12:29:02.248 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.mysite.sbb.common.service.AttachImageServiceTest]: class path resource [com/mysite/sbb/common/service/AttachImageServiceTestContext.groovy] does not exist
+12:29:02.249 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.mysite.sbb.common.service.AttachImageServiceTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+12:29:02.251 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.mysite.sbb.common.service.AttachImageServiceTest]: AttachImageServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:29:02.421 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.mysite.sbb.common.service.AttachImageServiceTest]
+12:29:02.707 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [/Users/jeongjayun/workspace/git/lifeChain/lifechain/build/classes/java/main/com/mysite/sbb/SbbApplication.class]
+12:29:02.714 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.mysite.sbb.SbbApplication for test class com.mysite.sbb.common.service.AttachImageServiceTest
+12:29:03.274 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.mysite.sbb.common.service.AttachImageServiceTest]: using defaults.
+12:29:03.278 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+12:29:03.355 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@10ad20cb, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@7dd712e8, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@2c282004, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@22ee2d0, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@7bfc3126, org.springframework.test.context.support.DirtiesContextTestExecutionListener@3e792ce3, org.springframework.test.context.transaction.TransactionalTestExecutionListener@53bc1328, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@26f143ed, org.springframework.test.context.event.EventPublishingTestExecutionListener@3c1e3314, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@4b770e40, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@78e16155, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@54a3ab8f, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@1968a49c, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@6a1ebcff, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@19868320]
+12:29:03.368 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@271f18d3 testClass = AttachImageServiceTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@6bd51ed8 testClass = AttachImageServiceTest, locations = '{}', classes = '{class com.mysite.sbb.SbbApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@cb191ca, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@4b672daa, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3fffff43, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@2e11485, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6d304f9d, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@56dc1551], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true]], class annotated with @DirtiesContext [false] with mode [null].
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.12)
+
+2023-07-14 12:29:05.703  INFO 44524 --- [    Test worker] c.m.s.c.service.AttachImageServiceTest   : Starting AttachImageServiceTest using Java 11.0.19 on jeongjayun-ui-MacBookAir.local with PID 44524 (started by jeongjayun in /Users/jeongjayun/workspace/git/lifeChain/lifechain)
+2023-07-14 12:29:05.713  INFO 44524 --- [    Test worker] c.m.s.c.service.AttachImageServiceTest   : No active profile set, falling back to 1 default profile: "default"
+2023-07-14 12:29:11.402  INFO 44524 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-14 12:29:11.580  INFO 44524 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 164 ms. Found 8 JPA repository interfaces.
+2023-07-14 12:29:13.310  INFO 44524 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-14 12:29:13.390  INFO 44524 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-07-14 12:29:13.658  INFO 44524 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-07-14 12:29:13.862  INFO 44524 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-07-14 12:29:14.174  INFO 44524 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-07-14 12:29:14.199  INFO 44524 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-07-14 12:29:17.215  INFO 44524 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-14 12:29:17.261  INFO 44524 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-14 12:29:19.318  WARN 44524 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-14 12:29:21.849  WARN 44524 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/css/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-07-14 12:29:21.851  INFO 44524 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/css/**']
+2023-07-14 12:29:21.851  WARN 44524 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-07-14 12:29:21.852  INFO 44524 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/js/**']
+2023-07-14 12:29:21.852  WARN 44524 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/img/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-07-14 12:29:21.852  INFO 44524 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/img/**']
+2023-07-14 12:29:21.852  WARN 44524 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/lib/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-07-14 12:29:21.852  INFO 44524 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/lib/**']
+2023-07-14 12:29:22.220  INFO 44524 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@17e323fd, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6df0d030, org.springframework.security.web.context.SecurityContextPersistenceFilter@4b8466c2, org.springframework.security.web.header.HeaderWriterFilter@1d2aa638, org.springframework.security.web.csrf.CsrfFilter@1407b93f, org.springframework.security.web.authentication.logout.LogoutFilter@5d72da0b, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6020cd42, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@18bab95b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@24ffe853, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@33319df0, org.springframework.security.web.session.SessionManagementFilter@50f65fe0, org.springframework.security.web.access.ExceptionTranslationFilter@1134a934, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5b9c74a]
+2023-07-14 12:29:24.183  INFO 44524 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2023-07-14 12:29:25.757  INFO 44524 --- [    Test worker] c.m.s.c.service.AttachImageServiceTest   : Started AttachImageServiceTest in 22.131 seconds (JVM running for 26.924)
+Hibernate: 
+    select
+        memberinfo0_.id as id1_6_,
+        memberinfo0_.created_date as created_2_6_,
+        memberinfo0_.updated_date as updated_3_6_,
+        memberinfo0_.address1 as address4_6_,
+        memberinfo0_.address2 as address5_6_,
+        memberinfo0_.member_id as member_10_6_,
+        memberinfo0_.info_member_id as info_mem6_6_,
+        memberinfo0_.member_introduce as member_i7_6_,
+        memberinfo0_.member_tel as member_t8_6_,
+        memberinfo0_.zipcode as zipcode9_6_ 
+    from
+        member_info memberinfo0_ 
+    where
+        memberinfo0_.info_member_id=?
+2023-07-14 12:29:26.254  INFO 44524 --- [    Test worker] c.m.s.c.service.AttachImageServiceTest   : attachImage : com.mysite.sbb.member.entity.AttachImage@28e12bc5
+2023-07-14 12:29:26.254  INFO 44524 --- [    Test worker] c.m.s.c.service.AttachImageServiceTest   : attachImage2 : com.mysite.sbb.member.entity.AttachImage@e00f822
+2023-07-14 12:29:26.254  INFO 44524 --- [    Test worker] c.m.s.c.service.AttachImageServiceTest   : [com.mysite.sbb.member.entity.AttachImage@28e12bc5, com.mysite.sbb.member.entity.AttachImage@e00f822]
+Hibernate: 
+    insert 
+    into
+        attach_image
+        (file_name, member_info_id, upload_path, uuid) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        attach_image
+        (file_name, member_info_id, upload_path, uuid) 
+    values
+        (?, ?, ?, ?)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

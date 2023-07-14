@@ -1,0 +1,102 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}">
+<div layout:fragment="content" class="layout-page">
+<div class="container-xxl custom-login">
+<div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register Card -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="/" class="app-brand-link gap-2">
+					<img src="/assets/img/logo/logo.png" alt="Logo" width="45px" />
+                  <span class="app-brand-text demo text-body fw-bolder">생명사슬</span>
+                </a>
+              </div>
+              <br>
+              <!-- /Logo -->
+              <h4 class="mb-2">회원가입에 오신 걸 환영합니다! 🚀</h4>
+              <p class="mb-4">회원이 되셔서 다양한 정보를 얻어보세요!</p>
+
+              <form th:action="@{/register}" th:object="${memberRegisterForm}" method="post" id="formAuthentication" class="mb-3">
+                <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+                <div class="mb-3">
+                  <label for="id" class="form-label">사용자 이메일</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    th:field="*{memberId}"
+                    placeholder="이메일을 적어주세요."
+                    autofocus
+                  />
+                </div>
+                <div class="mb-3">
+				  <label for="id" class="form-label">인증번호</label>
+				  <input type="text" class="form-control" placeholder="인증번호" autofocus disabled="disabled" maxlength="7" onkeyup="checkAuthNumFn()" />
+				</div>
+				<button class="btn btn-primary d-grid w-100">메일 인증</button>
+                <div class="mb-3">
+                  <label for="id" class="form-label">닉네임</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    th:field="*{memberNick}"
+                    placeholder="닉네임을 적어주세요."
+                    autofocus
+                  />
+
+                </div>
+				<div class="mb-3 form-password-toggle">
+                  <label class="form-label" for="memberPw1">비밀번호</label>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      class="form-control"
+                      th:field="*{memberPw1}"
+                      placeholder="영문 및 특수문자 포함 8개 이상"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+                <div class="mb-3 form-password-toggle">
+                  <label class="form-label" for="memberPw2">비밀번호 확인</label>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      class="form-control"
+                      th:field="*{memberPw2}"
+                      placeholder="비밀번호 확인"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
+                    <label class="form-check-label" for="terms-conditions">
+                      <a href="javascript:void(0);">약관 & 개인정보정책</a>
+                      에 동의하겠습니다.
+                    </label>
+                  </div>
+                </div>
+                <button class="btn btn-primary d-grid w-100">회원가입</button>
+              </form>
+
+              <p class="text-center">
+                <span>이미 회원이십니까?</span>
+                <a th:href="@{/login}">
+                  <span>로그인</span>
+                </a>
+              </p>
+            </div>
+          </div>
+          <!-- Register Card -->
+        </div>
+      </div>
+      </div>
+      </div>
+</html>

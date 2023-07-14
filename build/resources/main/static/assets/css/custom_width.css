@@ -1,0 +1,17 @@
+.custom-container {
+  max-width: 1000px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.custom-login {
+  max-width: 500px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.manual-container {
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+}
