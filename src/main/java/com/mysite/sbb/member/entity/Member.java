@@ -1,5 +1,6 @@
 package com.mysite.sbb.member.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,8 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "member_status")
     private MemberStatus memberStatus;
+
+    private LocalDateTime lastLoginTime; //최종로그인
 
     @OneToMany(mappedBy = "author")
     private List<Question> question = new ArrayList<>();

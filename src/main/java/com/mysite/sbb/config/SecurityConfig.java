@@ -24,6 +24,7 @@ import com.mysite.sbb.member.service.MemberSecurityService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MemberSecurityService memberSecurityService;
+    private final CustomAuthenticationSuccessHandler authenticationSuccessHandler;
 
     public void configure(WebSecurity web) throws Exception {
         // static 디렉터리의 하위 파일 목록은 인증 무시 ( = 항상통과 )
@@ -40,15 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and() // 로그인 설정
                 .formLogin()
                 .loginPage("/login")
-                .successHandler((request, response, authentication) -> {
-                    for (GrantedAuthority auth : authentication.getAuthorities()) {
-                        if (auth.getAuthority().equals("ROLE_ADMIN")) { //관리자 로그인 시 관리자 페이지로
-                            response.sendRedirect("/admin/");
-                        } else if (auth.getAuthority().equals("ROLE_MEMBER")) { //멤버 로그인 시 메인화면으로
-                            response.sendRedirect("/");
-                        }
-                    }
-                })
+                .successHandler(authenticationSuccessHandler)
                 .permitAll()
                 .and() // 로그아웃 설정
                 .logout()

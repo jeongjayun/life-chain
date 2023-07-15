@@ -5,62 +5,44 @@
 
 <!-- Content -->
 <div layout:fragment="content">
-
     <div class="container-xxl flex-grow-1 container-p-y">
+        <ul class="nav nav-pills flex-column flex-md-row mb-3">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{'/admin/account/'+${member.id}}"><i class="bx bx-user me-1"></i> 회원정보</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{'/admin/account/post/'+${member.id} }"
+                ><i class="bx bx-bell me-1"></i> <span th:text="${member.memberNick}">회원 닉네임</span>님의 쓴 글</a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages-account-settings-connections.html"
+                ><i class="bx bx-link-alt me-1"></i> <span th:text="${member.memberNick}">회원 닉네임</span>님의 즐겨찾기</a
+                >
+            </li>
+        </ul>
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Posts /</span> 작성 목록</h4>
-
         <div class="row">
             <div class="col-md-12">
                 <!-- Hoverable Table rows -->
                 <div class="card">
-                    <h5 class="card-header">회원 목록</h5>
+                    <h5 class="card-header">게시글</h5>
                     <div class="table-responsive text-nowrap">
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>이메일</th>
+                                <th>제 목</th>
                                 <th>닉네임</th>
-                                <th>가입일</th>
-                                <th>최종 접속일</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>작성일</th>
+                                <th>수정일</th>
                             </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                            <tr th:each="memberList: ${memberList}">
-                                <td><a th:href="@{'/admin/account/'+${memberList.id}}"
-                                       th:text="${memberList.memberId}"></a></td>
-                                <td th:text="${memberList.memberNick}"></td>
-                                <td th:text="${#dates.format(memberList.memberDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                                <td th:text="${#dates.format(memberList.lastLoginDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-
-                                <td>
-                                    <span th:if="${memberList.memberStatus.isActive()}"
-                                          class="badge bg-label-primary me-1">Active</span>
-                                    <span th:if="${memberList.memberStatus.isDeactive()}"
-                                          class="badge bg-label-primary me-2">Deactive</span>
-                                    <span th:if="${memberList.memberStatus.isDormant()}"
-                                          class="badge bg-label-primary me-3">Dormant</span>
-                                    <span th:if="${memberList.memberStatus.isWithdrawal()}"
-                                          class="badge bg-label-primary me-4">WithDrawal</span>
-                                </td>
-
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript:void(0);"
-                                            ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                            >
-                                            <a class="dropdown-item" href="javascript:void(0);"
-                                            ><i class="bx bx-trash me-1"></i> Delete</a
-                                            >
-                                        </div>
-                                    </div>
-                                </td>
+                            <tr>
+                                <td>제목</td>
+                                <td>닉네임</td>
+                                <td>작성일</td>
+                                <td>수정일</td>
                             </tr>
 
                             </tbody>

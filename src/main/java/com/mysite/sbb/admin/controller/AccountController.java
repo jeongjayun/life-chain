@@ -90,9 +90,16 @@ public class AccountController {
     }
 
     //관리자가 회원의 쓴 글 조회하기
-    @GetMapping("/posts/{id}")
-    public String findMembersPost(@PathVariable("id") @Valid Long id){
-        return "redirect:/admin/account/posts";
+    @GetMapping("/post/{id}")
+    public String findMembersPost(@PathVariable("id") @Valid Long id, Model model) {
+        Member member = accountService.getMember(id);
+        model.addAttribute("member", member);
+        return "/admin/templates/pages/account/posts";
     }
 
+    //관리자가 회원의 즐겨찾기 조회하기
+    @GetMapping("/favoite/{id}")
+    public String findMemberFavorite(@PathVariable("id") @Valid Long id) {
+        return "redirect:/admin/account/favorite";
+    }
 }
