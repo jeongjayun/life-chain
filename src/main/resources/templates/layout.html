@@ -5,8 +5,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"> <!--Ajax 403에러 이유 :  csrf(Cross-site request forgery)의 token이 누락-->
+	<meta name="_csrf" th:content="${_csrf.token}">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
     <title>생명사슬</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" th:href="@{/assets/img/favicon/favicon.png}" />
@@ -19,6 +20,13 @@
     <link rel="stylesheet" th:href="@{/assets/vendor/css/theme-default.css}" class="template-customizer-core-css" />
     <link rel="stylesheet" th:href="@{/assets/css/demo.css}"/>
     <link rel="stylesheet" th:href="@{/assets/css/custom_width.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    
+    <!--Google Font-->
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
+    
     
     <!-- Helpers -->
     <script th:inline="javascript" th:src="@{/assets/vendor/js/helpers.js}" type="text/javascript"></script>
@@ -26,7 +34,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script th:inline="javascript" th:src="@{/assets/js/config.js}" type="text/javascript"></script>
-    
+
 </head>
 <body>
 	<!-- 네비게이션바 -->
@@ -35,7 +43,7 @@
 	<th:block layout:fragment="content"></th:block>
 	<!-- 기본 템플릿 안에 삽입될 내용 End -->
 	<!-- Bootstrap JS -->
-	<script th:src="@{/bootstrap.min.js}"></script>
+	
 	<!-- 자바스크립트 Start -->
 	<th:block layout:fragment="script"></th:block>
 	<script th:inline="javascript" th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>

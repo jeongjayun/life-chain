@@ -1,64 +1,66 @@
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
-	<div layout:fragment="content" class="layout-page">
-		<div class="container-xxl custom-container">
-	     <div class="card">
-	        <h5 class="card-header" th:text = "${member.memberNick}"></h5>
-	            <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link " href="/user/profile">기본정보</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="/user/question">게시</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link " href="/user/answer">답변</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link " href="/user/comment">댓글</a>
-        </li>
-    </ul>
-	        <div class="table-responsive text-nowrap">
-	          <table class="table">
-	            <thead>
-	              <tr class="text-center">
-	                <th>번호</th>
-	                <th style="width:50%">제목</th>
-	                <th>작성일시</th>
-	                <th>조회수</th>
-	              </tr>
-	            </thead>
-	            <tbody class="table-border-bottom-0">
-	              <tr class="text-center" th:each="question, loop : ${questions}" >
-	                <td></td>
-	                    <td class = "text-start">
-						    <strong><a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a></strong>
-						<span class="text-danger small ms-2"
-						    th:if="${#lists.size(question.answerList) > 0}" 
-						    th:text="${#lists.size(question.answerList)}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}">
+<div layout:fragment="content" class="layout-page">
+    <div class="container-xxl custom-container">
+        <div class="card">
+            <h5 class="card-header" th:text="${member.memberNick}"></h5>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link " href="/user/profile">기본정보</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/user/question">게시</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/user/answer">답변</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/user/comment">댓글</a>
+                </li>
+            </ul>
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                    <thead>
+                    <tr class="text-center">
+                        <th>번호</th>
+                        <th style="width:50%">제목</th>
+                        <th>작성일시</th>
+                        <th>조회수</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    <tr class="text-center" th:each="question, loop : ${questions}">
+                        <td></td>
+                        <td class="text-start">
+                            <strong><a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a></strong>
+                            <span class="text-danger small ms-2"
+                                  th:if="${#lists.size(question.answerList) > 0}"
+                                  th:text="${#lists.size(question.answerList)}">
 						</span>
-						</td>
-	                <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
-	                <td th:text="${question.views}"></td>
-	                <td>
-	                  <div class="dropdown">
-	                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-	                      <i class="bx bx-dots-vertical-rounded"></i>
-	                    </button>
-	                    <div class="dropdown-menu">
-	                      <a class="dropdown-item" href="javascript:void(0);"
-	                        ><i class="bx bx-edit-alt me-1"></i> 수정</a
-	                      >
-	                      <a class="dropdown-item" href="javascript:void(0);"
-	                        ><i class="bx bx-trash me-1"></i> 삭제</a
-	                      >
-	                    </div>
-	                  </div>
-	                </td>
-	              </tr>
-	            </tbody>
-	          </table>
-	        </div>
-	      </div>
-		</div>
-	</div>
+                        </td>
+                        <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td th:text="${question.views}"></td>
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="javascript:void(0);"
+                                    ><i class="bx bx-edit-alt me-1"></i> 수정</a
+                                    >
+                                    <a class="dropdown-item" href="javascript:void(0);"
+                                    ><i class="bx bx-trash me-1"></i> 삭제</a
+                                    >
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 </html>

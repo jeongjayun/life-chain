@@ -1,37 +1,182 @@
-<html layout:decorate="~{layout}" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
-	<div layout:fragment="content" class="container">
-
-<link rel="stylesheet" th:href="@{/assets/css/custom_width.css}"/>
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" th:href="@{/assets/css/heart_icon.css}"/>
-              
-	  <div class = "container-xxl custom-container">
-		<div class="row my-3">
-		  <h5 class="my-4">👍 응급</h5>
-		    <div class="col-lg-12 col-md-12 order-1">
-		      <div class="row">
-				  
-		        <div class="col-lg-4 col-md-6 col-12 mb-4" th:each="manual, loop : ${manualList}">
-		          <div class="card">
-		            <div class="card-body">
-		              <div class="card-title d-flex align-items-start justify-content-between">
-		                <div class="avatar flex-shrink-0">
-		              <span class="badge bg-label-success me-1" th:text="${manual.type}"></span>
-		                </div>
-		                <div class="love-icon">
-						  <input type="checkbox" id="like-toggle" />
-						  <label for="like-toggle" class="heart"> </label>
-						</div>
-		              </div>
-		              <img src="${manual.manualPic}" alt="CPR Image">
-		              <h3 class="card-title mb-2" th:text="${manual.subject}"></h3>
-		              <small class="text-success fw-semibold" th:text="${manual.summary}"></small>
-		            </div>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-	     </div>
-	   </div>
-	</div>
-	
-	
+<div layout:fragment="content" class="container">
+
+    <style>
+        /* 모달 배경을 불투명하게 설정합니다. */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0); /* 배경색과 투명도 조절 */
+        }
+
+        .modal-transparent .modal-content {
+            background-color: rgba(255, 255, 255, 0.9); /* 배경색과 투명도 조절 */
+        }
+
+        /* 모달의 크기를 조정합니다. */
+        .modal-content {
+            max-width: 250px; /* 최대 너비 설정 */
+            width: auto; /* 너비 자동 설정 */
+            max-height: 70px;
+            height: auto;
+        }
+
+
+
+
+    </style>
+
+    <div class="container-xxl custom-container">
+        <div class="row my-3">
+
+            <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                 id="layout-navbar">
+                <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                        <i class="bx bx-menu bx-sm"></i>
+                    </a>
+                </div>
+
+                <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                    <!-- Search -->
+                    <a th:href="@{/manual/search}">
+                        <div class="navbar-nav align-items-center" id="area">
+                            <div class="nav-item d-flex align-items-center">
+                                <i class="bx bx-search fs-4 lh-0"></i>
+                                <input type="text" class="form-control border-0 shadow-none" placeholder="메뉴얼을 검색하세요."
+                                       aria-label="Search..." id="search-input"/>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- /Search -->
+                </div>
+            </nav>
+
+            <!-- / Navbar -->
+
+            <h5 class="my-4">👍 응급</h5>
+            <div class="col-lg-12 col-md-12 order-1">
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6 col-12 mb-4" th:each="manual, loop : ${manualList}">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-start justify-content-between">
+                                    <div class="avatar flex-shrink-0">
+                                        <span class="badge bg-label-success me-1" th:text="${manual.manualType}"></span>
+                                    </div>
+                                    <a th:href="@{/bookmark/add/{id}(id=${manual.id}, memberId=${memberId})}">
+                                        <div class="love-icon">
+                                            <input type="checkbox"
+                                                   data-manual-id="${manual.id}"
+                                                   id="like-toggle-${manual.id}"
+                                                   onchange="toggleBookmark(this);"/>
+                                            <label for="like-toggle-${manual.id}" class="heart"></label>
+                                        </div>
+                                    </a>
+                                </div>
+                                <img th:src="${manual.manualPic}" alt="CPR Image"
+                                     style="width: 50%; margin-bottom: 30px; display: block; margin-left: auto; margin-right: auto;">
+                                <h3 class="card-title mb-2"><a th:href="@{|/manual/detail/${manual.id}|}"
+                                                               th:text="${manual.subject}"></a></h3>
+                                <small class="text-success fw-semibold" th:text="${manual.summary}"></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 모달창 -->
+                    <div class="modal fade" id="bookmark-modal" tabindex="-1" aria-labelledby="bookmark-modal-label"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-bottom">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <p id="bookmark-message"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+  function toggleBookmark(checkbox) {
+    const id = $(checkbox).data('manual-id');
+    const isChecked = $(checkbox).prop('checked');
+    const url = '/bookmark/' + id;
+
+   const bookmarkDto = {
+  memberId: ${member.id},
+  manualId: checkbox.getAttribute('data-manual-id')
+    };
+
+    console.log("const bookmarkDto에서 memberId: ", bookmarkDto.memberId);
+    console.log("const bookmarkDto에서 manualId: ", bookmarkDto.manualId);
+
+    // POST 또는 DELETE 요청을 보내는 함수
+    function sendRequest(method, url, data) {
+      return $.ajax({
+        type: method,
+        url: url,
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader(getCsrfHeader(), getCsrfToken());
+        }
+      });
+    }
+
+    // 체크박스 상태에 따라 요청을 보내고 처리하는 함수
+    function handleBookmarkToggle() {
+      if (isChecked) {
+        sendRequest('POST', url, bookmarkDto)
+          .done(function (response) {
+            console.log(response);
+          })
+          .fail(function (xhr, status, error) {
+            console.log("에러 상태:", status);
+            console.log("에러 메시지:", error);
+            console.log("XHR 객체:", xhr);
+          });
+      } else {
+        sendRequest('DELETE', url, bookmarkDto)
+          .done(function (response) {
+            console.log(response);
+          })
+          .fail(function (xhr, status, error) {
+            console.log("에러 상태:", status);
+            console.log("에러 메시지:", error);
+            console.log("XHR 객체:", xhr);
+          });
+      }
+    }
+
+    handleBookmarkToggle();
+  }
+
+  // CSRF 토큰 가져오기
+  function getCsrfToken() {
+    return $("meta[name='_csrf']").attr("content");
+  }
+
+  // CSRF 헤더 이름 가져오기
+  function getCsrfHeader() {
+    return $("meta[name='_csrf_header']").attr("content");
+  }
+
+  console.log("CSRF 토큰: ", getCsrfToken());
+  console.log("CSRF 헤더: ", getCsrfHeader());
+
+  // manualList 변수 선언 및 값 할당
+  var manualList = /*[[${manualList}]]*/ [];
+
+  // 체크박스의 onchange 이벤트 핸들러 설정
+  $(document).on('change', 'input[type=checkbox]', function () {
+    toggleBookmark(this);
+  });
+
+    </script>
+
+</div>

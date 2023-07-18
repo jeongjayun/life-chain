@@ -1,12 +1,6 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <div layout:fragment="content" class="layout-page">
-<style>
-	.custom-container {
-	  max-width: 1000px;
-	  margin-right: auto;
-	  margin-left: auto;
-	}
-</style>
+		<link rel="stylesheet" th:href="@{/assets/css/weatherCss.css}"/>
 
 	<div class="container-xxl custom-container">
                   <!-- Content wrapper -->
@@ -70,30 +64,26 @@
                 <div class="col-lg-7 mb-4 order-0">
                   <div class="card">
                     <div class="d-flex align-items-end row">
-                      <div class="col-sm-7">
-                        <div class="card-body">
-                          <h5 class="card-title text-primary">☀ 오늘 날씨는 화창합니다!</h5>
-                          <p class="mb-4">
-                            강수량 <span class="fw-bold">10%</span>
-                            일조량 <span class="fw-bold">45%</span><br>
-                            날씨 관련된 어쩌고...<br>
-                            저쩌고
-                          </p>
-
-                          <a href="javascript:;" class="btn btn-sm btn-outline-primary">더보기</a>
-                        </div>
-                      </div>
-                      <div class="col-sm-5 text-center text-sm-left">
+                      
+                      <div class="col-sm-4 text-center text-sm-left">
                         <div class="card-body pb-0 px-0 px-md-4">
-                          <img
-                            src="../assets/img/illustrations/man-with-laptop-light.png"
-                            height="140"
-                            alt="View Badge User"
-                            data-app-dark-img="illustrations/man-with-laptop-dark.png"
-                            data-app-light-img="illustrations/man-with-laptop-light.png"
-                          />
+							<div class="wIcon" id ="wIcon"></div>
                         </div>
                       </div>
+                      
+                      <div class="col-sm-8">
+                        <div class="card-body">
+                          <h5 class="card-title text-primary"><div class="manual" id="manual"></div></h5>
+	                  	      <div class="current-info">
+						        <div class="date-container">
+						          <div class="time" id="time"><span id="am-pm"></span></div>
+						          <div class="date" id="date"></div>
+						        </div>
+						      </div>
+                          <a th:href="@{weather}" class="btn btn-sm btn-outline-primary">더보기</a>
+                        </div>
+                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -102,7 +92,7 @@
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-12">
                         <div class="card-body">
-                          <h5 class="card-title text-primary">오늘 추천 메뉴얼은</h5>
+                          <h5 class="card-title text-primary">오늘 추천의 메뉴얼은</h5>
                           <p class="mb-4">
                             어쩌고고고 <br>
                             날씨 관련된거면 그게 우선 <br>
@@ -470,6 +460,19 @@
             <div class="content-backdrop fade"></div>
           </div>
     </div>
+    
+
+
+    
+      <script th:inline="javascript"
+        th:src="@{https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js}"
+        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+
+    <script th:inline="javascript" th:src="@{/assets/js/indexWeather.js}"></script>
 </div>
 
 

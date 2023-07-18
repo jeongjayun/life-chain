@@ -1,41 +1,172 @@
 <html layout:decorate="~{layout}">
-	<div layout:fragment="content" class="container">
-	    <h5 class="my-3 border-bottom pb-2">댓글 등록</h5>
-<!-- Options -->
-              <div class="card mb-4 manual-container">
-                <h5 class="card-header">응급</h5>
-                <button type="button" class="btn rounded-pill btn-icon btn-primary">
-                <span class="tf-icons bx bx-play"></span>
-              </button>
-              <button type="button" class="btn rounded-pill btn-icon btn-outline-secondary">
-                <span class="tf-icons bx bx-volume-full"></span>
-              </button>
-                <div class="card-body">
-                  <div class="text-light small fw-semibold">CPR</div>
-                  <div class="demo-vertical-spacing">
-                    <div class="progress">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 25%"
-                        aria-valuenow="25"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      >
-                        25%
-                      </div>
-                    </div>
-                    <hr class="m-0" />
-                    <div class="center-align">
-                  <img src ="https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/12/7661-cpr-chest-compressions-animation.gif?w=1845">
-                  <h1 class="mb-0">압박</h1>
-                  <h4 class="mb-0">분당 100~120회로 강하고 빠르게 30회 압박합니다.</h1>
-                  <br>
-                  <button type="button" class="btn btn-xl rounded-pill btn-outline-secondary">이전</button>
-                  <button type="button" class="btn btn-xl rounded-pill btn-primary">다음</button>
-                  </div>
+<div layout:fragment="content" class="container">
+
+    <audio id="myAudio" src="${manual.manualAudio}" autoplay></audio>
+    <br>
+    <div class="card mb-4 manual-container">
+        <button type="button" class="btn rounded-pill btn-icon btn-primary" id="playBtn">
+            <!-- Boxicons 아이콘 사용 (재생) -->
+            <i class='bx bx-play'></i>
+        </button>
+        <button type="button" class="btn rounded-pill btn-icon btn-outline-secondary" id="stopBtn"
+                style="display: none;">
+            <!-- Boxicons 아이콘 사용 (중지) -->
+            <i class='bx bx-stop'></i>
+        </button>
+        <h5 class="card-header" th:text="${manual.manualType}"></h5>
+
+        <div class="card-body">
+            <div class="text-light small fw-semibold" th:text="${manual.subject}"></div>
+            <div class="demo-vertical-spacing">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0"
+                         aria-valuemax="100" id="updateProgressBar"></div>
                 </div>
-              </div>
-              
-              <!--/ Options -->
-	</div>
+                <hr class="m-0"/>
+                <div class="center-align">
+                    <!--<img src ="https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/12/7661-cpr-chest-compressions-animation.gif?w=1845">-->
+                    <img src="" id="manualPic"
+                         style="width: 30%; margin: 50px 0 50px 0; display: block; margin-left: auto; margin-right: auto;">
+                    <h1 class="mb-0" id="subTopic" style="text-align: center;"></h1>
+                    <br>
+                    <h4 class="mb-0" id="content"></h4>
+                    <br>
+
+                    <div class="col-lg-12 col-md-12 order-1">
+                        <div class="row">
+                            <div class="col-6 text-end">
+                                <button type="button" class="btn btn-xl rounded-pill btn-outline-secondary"
+                                        id="previous_btn">이전
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-xl rounded-pill btn-primary" id="next_btn">다음
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+            <script>
+  var totalDataLength = 0; // 전체 데이터 개수를 저장하는 변수
+  var manualContentData = null;
+  var currentContentIndex = -1;
+
+  document.addEventListener("DOMContentLoaded", function() {
+    var currentUrl = window.location.href;
+    var match = currentUrl.match(/\/(\d+)$/);
+    var hid = match ? parseInt(match[1]) : null;
+
+    if (hid) {
+      request(hid, function(data) {
+        var filteredData = data.filter(function(item) {
+          return item.manual.id === hid; // manual_id가 hid와 같은 데이터만 필터링
+        });
+
+        totalDataLength = filteredData.length; // 필터링된 데이터 개수를 저장
+        updateProgressBar();
+        playAudio(filteredData);
+      });
+    }
+  });
+
+  function request(hid, callback) {
+    $.ajax({
+      url: "/manual/manualContent",
+      type: "get",
+      data: { id: hid },
+      success: function(data) {
+        var filteredData = data.filter(function(item) {
+          return item.manual.id === hid;
+        });
+
+        if (filteredData.length > 0) {
+          displayManualContent(filteredData);
+          currentContentIndex = 0;
+          updateContent(currentContentIndex);
+          updateProgressBar();
+          $("#previous_btn").hide();
+        }
+
+        // 콜백 함수 호출
+        if (typeof callback === "function") {
+          callback(data);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert("Request failed: " + textStatus + ", " + errorThrown);
+      }
+    });
+  }
+
+  $(document).ready(function() {
+    // manual 페이지 진입 시 manual_content 데이터를 한 번에 불러옴
+    request();
+
+    $("#next_btn").on("click", function() {
+      currentContentIndex += 1;
+      updateContent(currentContentIndex);
+      updateProgressBar();
+      checkButtonsVisibility();
+      playAudio(manualContentData);
+    });
+
+    $("#previous_btn").on("click", function() {
+      currentContentIndex -= 1;
+      updateContent(currentContentIndex);
+      updateProgressBar();
+      checkButtonsVisibility();
+      playAudio(manualContentData);
+    });
+  });
+
+  function displayManualContent(data) {
+    manualContentData = data;
+  }
+
+  function updateContent(index) {
+    $("#subTopic").text(manualContentData[index].subtopic);
+    $("#content").text(manualContentData[index].content);
+    $("#manualPic").attr("src", manualContentData[index].manualPic);
+  }
+
+  function updateProgressBar() {
+    var progressBar = document.getElementById("updateProgressBar");
+    if (progressBar) {
+      var percent = ((currentContentIndex + 1) / totalDataLength) * 100;
+      progressBar.style.width = percent.toFixed(1) + "%";
+      progressBar.textContent = percent.toFixed(1) + "%";
+
+      if (currentContentIndex === manualContentData.length - 1) {
+        progressBar.style.width = "100%";
+        progressBar.textContent = "100%";
+      }
+    }
+  }
+
+  function checkButtonsVisibility() {
+    if (currentContentIndex === 0) {
+      $("#previous_btn").hide();
+      $("#next_btn").show();
+    } else if (currentContentIndex === manualContentData.length - 1) {
+      $("#previous_btn").show();
+      $("#next_btn").hide();
+    } else {
+      $("#previous_btn, #next_btn").show();
+    }
+  }
+
+  function playAudio(data) {
+    var audioPath = data[currentContentIndex].audio;
+    var audio = new Audio(audioPath);
+    audio.play();
+  }
+
+            </script>
+
+
+        </div>

@@ -2,15 +2,19 @@
 <div layout:fragment="content" class="layout-page">
 <div class="container-xxl flex-grow-1 container-p-y">
   <div class="row">
-    <div class="col-lg-12 mb-4 order-0 custom-container">
+	  
+	 <div class="col-lg-12 mb-4 order-0 custom-container">
 		<br>
       <div class="card">
         <div class="d-flex align-items-end row">
           <div class="col-sm-12">
             <div class="card-body">
+			  <h1 class="mb-0" style = "text-align: center; margin: 20px 0 20px 0;">연도별 급성심장정지 발생 및 생존율</h1>
 				<br>
-				<canvas id="survivalStopHeart"></canvas>
+				<canvas id="comparisonChart"></canvas>
 				<p style="text-align: right;">제공 - 보건복지부 2016-2019</p>
+				<p>위 통계는 보건복지부에서 관리하는 보건복지현황 중 2016년~2019년까지 급성심장정지 발생 및 생존율을 시각화한 것입니다.</p>
+				<p>통계에 따르면 매년 <strong>30,000</strong>명 정도의 심정지 환자가 보고되고 있으며, 이 중 생존율은 약 <strong>7.6%</strong>에 지나지 않습니다.</p>
 			</div>
 		   </div>
         </div>
@@ -23,310 +27,43 @@
         <div class="d-flex align-items-end row">
           <div class="col-sm-12">
             <div class="card-body">
+				<h1 class="mb-0" style = "text-align: center; margin: 20px 0 20px 0;">연도별 급성심장정지 생존 및 회복률</h1>
 				<br>
-				<canvas id="occurrenceRate"></canvas>
+				<canvas id="cat"></canvas>
 				<p style="text-align: right;">제공 - 보건복지부 2016-2019</p>
+				<p>생존했다 하더라도 완전히 회복하는 것은 또 별개의 문제입니다.</p>
+				<p>지병의 유무에 따르겠지만 <strong>58.8%</strong>의 높지않은 회복율을 보이고 있습니다.</p>
 			</div>
 		   </div>
         </div>
       </div>
     </div>
     
-<div class="col-lg-12 mb-4 order-0 custom-container">
+	<div class="col-lg-12 mb-4 order-0 custom-container">
 		<br>
       <div class="card">
         <div class="d-flex align-items-end row">
           <div class="col-sm-12">
             <div class="card-body">
+				<h1 class="mb-0" style = "text-align: center; margin: 20px 0 20px 0;">일반인 심폐소생술 시행률</h1>
 				<br>
 				<canvas id="tryGeneralPerson"></canvas>
 				<p style="text-align: right;">제공 - 보건복지부 2016-2019</p>
+				<p>심정지 발생률에 비해 일반인의 시행율은 약 <strong>4,780</strong>건 정도로 적은 것을 알 수 있습니다.</p>
+				<p>언제 어디서나 일어날 수 있는 심정지의 목격자는 구급대원 및 관련 종사자보다 일반인들의 비율이 압도적으로 높을 것 입니다.</p>
+				<p>적절한 응급조치는 <strong>나와 가족, 이웃들의 목숨</strong>을 살릴 수 있습니다.</p>
 			</div>
 		   </div>
         </div>
       </div>
     </div>
-    
-    <div class="col-lg-12 mb-4 order-0 custom-container">
-		<br>
-      <div class="card">
-        <div class="d-flex align-items-end row">
-          <div class="col-sm-12">
-            <div class="card-body">
-				<br>
-				<canvas id="recoveryBrain"></canvas>
-				<p style="text-align: right;">제공 - 보건복지부 2016-2019</p>
-			</div>
-		   </div>
-        </div>
-      </div>
-    </div>
-    
-
-
     
   </div>
 </div>
-
-
-    
                 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!--2016-2019 급성심장정지 생존율-->
-<script>
-const survivalStopHeart = '/csv/survivalStopHeart.csv';
-
-d3.csv(survivalStopHeart).then(function(datapoints) {
-  const YearList = {};
-
-  datapoints.forEach(function(data) {
-    const year = data.year;
-    const allSvr = parseFloat(data.allSvr);
-
-    if (!YearList[year]) {
-      YearList[year] = 0;
-    }
-
-    YearList[year] += allSvr;
-  });
-
-  const years = Object.keys(YearList);
-  const totalSvrs = Object.values(YearList);
-
-  //console.log('Years:', years);
-  //console.log('Total Svrs:', totalSvrs);
-
-  const ctx = document.getElementById('survivalStopHeart');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: years,
-      datasets: [{
-        label: '연도별 급성심장정지 생존율',
-        data: totalSvrs,
-        backgroundColor: [
-          'rgba(255, 26, 104, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 26, 104, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(0, 0, 0, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-});
-
-</script>
-
-<!--2016-2019 급성심장정지 일반인-->
-<script>
-const tryGeneralPerson = '/csv/tryGeneralPerson.csv';
-
-d3.csv(tryGeneralPerson).then(function(datapoints) {
-  const YearList = {};
-
-  datapoints.forEach(function(data) {
-    const year = data.year;
-    const allPbcpr = parseFloat(data.allPbcpr);
-
-    if (!YearList[year]) {
-      YearList[year] = 0;
-    }
-
-    YearList[year] += allPbcpr;
-  });
-
-  const years = Object.keys(YearList);
-  const totalPbcprs = Object.values(YearList);
-
-  const ctx = document.getElementById('tryGeneralPerson');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: years,
-      datasets: [{
-        label: '연도별 일반인',
-        data: totalPbcprs,
-        backgroundColor: [
-          'rgba(255, 26, 104, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 26, 104, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(0, 0, 0, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-});
-
-</script>
-
-<!--2016-2019 급성심장정지 발생률-->
-<script>
-const occurrenceRate = '/csv/occurrenceRate.csv';
-
-d3.csv(occurrenceRate).then(function(datapoints) {
-  const YearList = {};
-
-  datapoints.forEach(function(data) {
-    const year = data.year;
-    const allOccr = parseFloat(data.allOccr);
-
-    if (!YearList[year]) {
-      YearList[year] = 0;
-    }
-
-    YearList[year] += allOccr;
-  });
-
-  const years = Object.keys(YearList);
-  const totalOccrs = Object.values(YearList);
-
-  const ctx = document.getElementById('occurrenceRate');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: years,
-      datasets: [{
-        label: '연도별 급성심장정지 발생률',
-        data: totalOccrs,
-        backgroundColor: [
-          'rgba(255, 26, 104, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 26, 104, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(0, 0, 0, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-});
-
-</script>
-
-<!--2016-2019 급성심장정지 뇌기능 회복률-->
-<script>
-const recoveryBrain = '/csv/recoveryBrain.csv';
-
-d3.csv(recoveryBrain).then(function(datapoints) {
-  const YearList = {};
-
-  datapoints.forEach(function(data) {
-    const year = data.year;
-    const allBrfr = parseFloat(data.allBrfr);
-
-    if (!YearList[year]) {
-      YearList[year] = 0;
-    }
-
-    YearList[year] += allBrfr;
-  });
-
-  const years = Object.keys(YearList);
-  const totalBrfrs = Object.values(YearList);
-
-  const ctx = document.getElementById('recoveryBrain');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: years,
-      datasets: [{
-        label: '연도별 급성심장정지 뇌기능 회복률',
-        data: totalBrfrs,
-        backgroundColor: [
-          'rgba(255, 26, 104, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 26, 104, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(0, 0, 0, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-});
-
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script th:inline="javascript" th:src="@{/assets/js/chart.js}"></script>
 
 </html>

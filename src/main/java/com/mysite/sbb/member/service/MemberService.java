@@ -1,12 +1,10 @@
 package com.mysite.sbb.member.service;
 
-import com.mysite.sbb.member.dto.MemberDto;
 import com.mysite.sbb.member.entity.MemberInfo;
-import com.mysite.sbb.member.entity.MemberStatus;
+import com.mysite.sbb.common.config.MemberStatus;
 import com.mysite.sbb.member.form.MemberRegisterForm;
 import com.mysite.sbb.member.mail.EmailException;
 import com.mysite.sbb.member.repository.MemberInfoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -89,4 +87,8 @@ public class MemberService {
         tempPasswordMail.sendSimpleMessage(memberId, tempPassword);
     }
 
+    public Member findByMemberNick(String memberNick) {
+        // 사용자 닉네임으로 Member 조회하는 로직
+        return memberRepository.findByMemberNick(memberNick);
+    }
 }

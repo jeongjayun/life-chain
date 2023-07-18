@@ -8,6 +8,7 @@ import com.mysite.sbb.common.entity.BaseEntity;
 
 import javax.persistence.*;
 
+import com.mysite.sbb.common.config.MemberStatus;
 import lombok.*;
 
 @Getter
@@ -19,6 +20,7 @@ public class Member extends BaseEntity {
     @Id
     /* 자동증가(Auto Increment) */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="member_idx")
     private Long id; // Member 엔티티 PK와 관련된 MemberInfo PK값 (동일한 값을 사용)
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -32,11 +34,11 @@ public class Member extends BaseEntity {
 
     private String memberPw;
 
+    private LocalDateTime lastLoginTime; //최종로그인
+
     @Enumerated(EnumType.STRING)
     @Column(name = "member_status")
     private MemberStatus memberStatus;
-
-    private LocalDateTime lastLoginTime; //최종로그인
 
     @OneToMany(mappedBy = "author")
     private List<Question> question = new ArrayList<>();

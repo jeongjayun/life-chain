@@ -1,0 +1,163 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container">
+
+    <script>
+const getJson = function (keyword) {
+    const query = {
+        "query": {
+            "bool": {
+                "should": [
+                    { "match": { "subject": keyword } },
+                    { "match": { "summary": keyword } },
+                    { "match": { "manual_type": keyword } },
+                    { "match": { "subtopic": keyword } },
+                    { "match": { "content": keyword } },
+                ]
+            }
+        },
+        "size": 10
+    };
+
+    const url = 'http://localhost:9200/lifechain/_search';
+    $.ajax({
+        type: 'POST',
+        contentType: "application/json",
+        url: url,
+        dataType: 'json',
+        data: JSON.stringify(query),
+        success: function (data) {
+            console.log(data);
+            const hits = data.hits.hits;
+            console.log(hits);
+            if (hits.length > 0) {
+                const manual = hits[0]._source;
+                const manualHTML = `
+                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-start justify-content-between">
+                                    <div class="avatar flex-shrink-0">
+                                        <span class="badge bg-label-success me-1">${manual.manual_type}</span>
+                                    </div>
+                                    <div class="love-icon">
+                                        <input type="checkbox" id="like-toggle" onchange="toggleBookmark()" />
+                                        <label for="like-toggle" class="heart"></label>
+                                    </div>
+                                </div>
+                                <img src="${manual.manual_pic}" alt="CPR Image" style="width: 50%; margin-bottom: 30px; display: block; margin-left: auto; margin-right: auto;">
+                                <h3 class="card-title mb-2"><a href="/manual/detail/${manual.id}">${manual.subject}</a></h3>
+                                <small class="text-success fw-semibold">${manual.summary}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $('#manual-list').html(manualHTML);
+            } else {
+                $('#manual-list').html('일치하는 메뉴얼이 없습니다.');
+            }
+        },
+        error: function (request, status, error) {
+            console.log(request, status, error);
+        }
+    });
+}
+getJson("cpr");
+
+
+    </script>
+
+    <link rel="stylesheet" th:href="@{/assets/css/heart_icon.css}"/>
+
+    <div class="container-xxl custom-container">
+        <div class="row my-3">
+
+            <nav
+                    class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar"
+            >
+                <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                        <i class="bx bx-menu bx-sm"></i>
+                    </a>
+                </div>
+
+                <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                    <!-- Search -->
+                    <div class="navbar-nav align-items-center" id="area">
+                        <div class="nav-item d-flex align-items-center">
+                            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)"
+                               onclick="getJson(document.getElementById('search-input').value)">
+                                <i class="bx bx-search fs-4 lh-0"></i>
+                            </a>
+                            <input type="text" class="form-control border-0 shadow-none" placeholder="메뉴얼을 검색하세요."
+                                   aria-label="Search..." id="search-input"/>
+                        </div>
+                    </div>
+                    <!-- /Search -->
+                </div>
+            </nav>
+
+            <!-- / Navbar -->
+
+            <div class="col-lg-12 col-md-12 order-1">
+                <br>
+                <div class="row" id="manual-list">
+                    <!-- manualList 카드 추가 -->
+                </div>
+            </div>
+
+            <!-- 알림 메시지 -->
+            <div id="bookmark-notification" class="bookmark-notification"></div>
+
+            <script>
+  function toggleBookmark(index) {
+    var manual = manualList[index];
+    var checkbox = document.getElementById("like-toggle");
+    var notification = document.getElementById("bookmark-notification");
+
+    if (checkbox.checked) {
+      manual.bookmarked = true;
+      notification.innerHTML = "즐겨찾기에 저장되었습니다.";
+    } else {
+      manual.bookmarked = false;
+      notification.innerHTML = "즐겨찾기가 해제되었습니다.";
+    }
+
+    // 알림 메시지 표시
+    notification.classList.add("show");
+
+    // 일정 시간 후에 알림 메시지 숨기기
+    setTimeout(function() {
+      notification.classList.remove("show");
+    }, 3000);
+
+    // 변경된 즐겨찾기 상태를 서버에 저장한다 (Ajax 또는 Form Submit 등으로 구현)
+    // ...
+  }
+
+            </script>
+
+            <style>
+  .bookmark-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  .bookmark-notification.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+            </style>
+
+
+        </div>

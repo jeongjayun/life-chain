@@ -1,0 +1,3 @@
+<configuration>
+    <logger name="com.mysite.sbb" level="INFO"/>
+</configuration>

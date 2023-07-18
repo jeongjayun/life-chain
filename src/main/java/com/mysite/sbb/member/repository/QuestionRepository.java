@@ -39,5 +39,9 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     @Query(value = "UPDATE Question q SET q.views=q.views + 1 where q.id = :id")
     @Transactional
     Integer updateView(@Param("id") Integer id);
+    
+    
+
+
 
 }

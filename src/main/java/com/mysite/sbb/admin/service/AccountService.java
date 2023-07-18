@@ -81,14 +81,10 @@ public class AccountService {
         member.setMemberNick(memberDto.getMemberNick());
         member.setMemberStatus(memberDto.getMemberStatus());
         accountRepository.save(member);
-
-        logger.info("updateMemberEntityByAdmin(MemberDto memberDto) 실행");
-        logger.info("수정된 member값 확인 : " + member);
     }
 
     @Transactional
     public void updateMemberInfoEntityByAdmin(MemberDto memberDto, MemberInfoDto memberInfoDto) { //MemberInfo 변경
-        logger.info("updateMemberInfoEntityByAdmin 로거찍기");
         Member member = memberRepository.findBymemberId(memberDto.getMemberId())
                 .orElseThrow(() -> new DataNotFoundException("Member not found"));
         MemberInfo memberInfo = getMemberInfoByMember(member);

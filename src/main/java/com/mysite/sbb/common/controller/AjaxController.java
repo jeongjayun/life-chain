@@ -198,7 +198,5 @@ public class AjaxController {
 
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
-
-
 }
 
